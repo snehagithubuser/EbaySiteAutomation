@@ -2,12 +2,13 @@ package com.ebay.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public class GuestChkOutPg {
 
 WebDriver driver;
 	
-	By Guestbtn = By.xpath(".//*[@id='gtChk']");
+	By guestbtn = By.xpath(".//*[@id='gtChk']");
 	
 	public GuestChkOutPg(WebDriver driver)
 	{
@@ -16,6 +17,9 @@ WebDriver driver;
 	
 	public void clickGuestChkOutbtn()
 	{
-		driver.findElement(Guestbtn).click();
+		WebElement guestButton = driver.findElement(guestbtn);
+		if(guestButton != null){
+			guestButton.click();
+		}
 	}
 }

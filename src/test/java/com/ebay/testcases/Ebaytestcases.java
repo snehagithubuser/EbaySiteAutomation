@@ -33,6 +33,7 @@ import com.ebay.pages.ProductPg;
 
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
+import library.Utility;
 
 
 public class Ebaytestcases {
@@ -40,7 +41,9 @@ public class Ebaytestcases {
 	public WebDriver driver;
 	private static final String BY_ID = "BY_ID";
 	private static final String BY_XPATH = "BY_XPATH"; 
-	private static final String BY_CLASS = "BY_CLASS"; 
+	private static final String BY_CLASS = "BY_CLASS";
+	private final String WEBSITE_URL = prop.getProperty("website");
+	private final String SEARCH_KEYWORD = prop.getProperty("search");
 	private Product purchasingProduct = new Product();
 
 	@Test(priority = 1)
@@ -52,9 +55,8 @@ public class Ebaytestcases {
 
 	@Test(priority = 2)
 	public void launchHomepage() {
-		// driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		driver.get("https://www.ebay.com.au/");
+		driver.get(WEBSITE_URL);
 
 	}
 
@@ -62,9 +64,7 @@ public class Ebaytestcases {
 	public void EnterProductdetail() {
 
 		HomePg Home = new HomePg(driver);
-		Home.EnterProductName("Sony Tv");
-		// driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-		// Assert.assertEquals("https://www.ebay.com.au",driver.getCurrentUrl());
+		Home.EnterProductName(SEARCH_KEYWORD);
 	}
 
 	@Test(priority = 4)
@@ -73,14 +73,12 @@ public class Ebaytestcases {
 		myWaitVar.until(ExpectedConditions.visibilityOfElementLocated(By.className("lvtitle")));
 		List<WebElement> linkElements = driver.findElements(By.className("lvtitle"));
 		String[] linkTexts = new String[linkElements.size()];
-		System.out.println("List of Sony Tvs");
-		System.out.println("-------------------");
+		System.out.println("-----List of Sony Tvs------");
 		for (WebElement e : linkElements) {
 			if (e.getText().toUpperCase().contains("TV") && e.getText().toUpperCase().contains("SONY")) {
 				System.out.println(e.getText());
 			} else
-				System.out.println("Wrong Tv listed");
-
+				Assert.fail("Wrong Tv Listed");
 		}
 
 	}
@@ -90,18 +88,18 @@ public class Ebaytestcases {
 
 		ProductPg Prod = new ProductPg(driver);
 		Prod.clickDispTech();
+		Utility.captureScreenshot(driver, "DisplaybyTechnology");
 		Prod.clickFormat();
 
 	}
 
 	@Test(priority = 6)
 	public void FilterProduct() {
-		WebDriverWait myWaitVar = new WebDriverWait(driver, 20);
+		WebDriverWait myWaitVar = new WebDriverWait(driver, 5);
 		myWaitVar.until(ExpectedConditions.visibilityOfElementLocated(By.className("vip")));
 		List<WebElement> linkElements2 = driver.findElements(By.className("vip"));
 		String[] linkTexts2 = new String[linkElements2.size()];
-		System.out.println("List of LED TVs");
-		System.out.println("----------------");
+		System.out.println("----List of LED TVs------");
 		for (WebElement e : linkElements2) {
 			if (e.getText().toUpperCase().contains("LED"))
 				System.out.println(e.getText());
@@ -111,7 +109,6 @@ public class Ebaytestcases {
 
 	@Test(priority = 7)
 	public void Verifyinfo() {
-		
 		/* random item selection */
 		Random r = new java.util.Random();
 		List<WebElement> linkElements3 = driver.findElements(By.className("vip"));
@@ -305,21 +302,12 @@ public class Ebaytestcases {
 		InputStream input = null;
 		try {
 			String filename = "config.properties";
-			input = new FileInputStream("config.properties");
-
-			// load a properties file
-			prop.load(input);
 			input = Ebaytestcases.class.getClassLoader().getResourceAsStream(filename);
 			if(input==null){
 				System.out.println("Sorry, unable to find " + filename);
 				return null;
 			}
-
-			//load a properties file from class path, inside static method
 			prop.load(input);
-
-			//get the property value and print it out
-			System.out.println(prop.getProperty("search"));
 			return prop;
 		} catch (IOException ex) {
 			ex.printStackTrace();
