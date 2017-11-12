@@ -20,6 +20,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -36,6 +37,7 @@ import junit.framework.AssertionFailedError;
 import library.Utility;
 
 
+
 public class Ebaytestcases {
 	Properties prop = loadProperties();
 	public WebDriver driver;
@@ -45,6 +47,8 @@ public class Ebaytestcases {
 	private final String WEBSITE_URL = prop.getProperty("website");
 	private final String SEARCH_KEYWORD = prop.getProperty("search");
 	private Product purchasingProduct = new Product();
+	
+	
 
 	@Test(priority = 1)
 	public void launchBrowser() {
@@ -64,7 +68,7 @@ public class Ebaytestcases {
 	public void EnterProductdetail() {
 
 		HomePg Home = new HomePg(driver);
-		Home.EnterProductName(SEARCH_KEYWORD);
+		Home.enterProductName(SEARCH_KEYWORD);
 	}
 
 	@Test(priority = 4)
@@ -84,11 +88,11 @@ public class Ebaytestcases {
 	}
 
 	@Test(priority = 5)
-	public void DispTechno() {
+	public void DispTechno() throws Exception {
 
 		ProductPg Prod = new ProductPg(driver);
 		Prod.clickDispTech();
-		Utility.captureScreenshot(driver, "DisplaybyTechnology");
+		//Utility.captureScreenshot(driver, "DisplaybyTechnology");
 		Prod.clickFormat();
 
 	}
@@ -173,7 +177,7 @@ public class Ebaytestcases {
 	}
 
 	@Test(priority = 9)
-	public void addToCart() {
+	public void addToCart() throws Exception {
 		CartPg Prod = new CartPg(driver);
 		Prod.clickCartbtn();
 		WebElement closeButton = checkWaitRetrieveElement("csclose", BY_ID);
@@ -192,10 +196,12 @@ public class Ebaytestcases {
 		} else {
 			Assert.fail("Not on Shooping Cart Page");
 		}
+		
+		Utility.captureScreenshot(driver, "CartPage");
 	}
 	
 	@Test(priority = 10)
-	public void verifyCartProductInformation() {
+	public void verifyCartProductInformation() throws Exception {
 		
 		CheckOutPg ShopProd = new CheckOutPg(driver);
 		ShopProd.clickCheckOutbtn();
@@ -208,11 +214,13 @@ public class Ebaytestcases {
 			Assert.fail("Not on Sign in  Page");
 		}
 		
+		Utility.captureScreenshot(driver, "SigninPage");
+		
 	}
 
 	
 	@Test(priority = 11)
-	public void proceedAsGuest()
+	public void proceedAsGuest() throws Exception
 	{
 		GuestChkOutPg RevItem = new GuestChkOutPg(driver);
 		RevItem.clickGuestChkOutbtn();
@@ -225,6 +233,7 @@ public class Ebaytestcases {
 			Assert.fail("Not on Guest Check out  Page");
 		}
 		
+		Utility.captureScreenshot(driver, "GuestPage");
 		
 	}
 	

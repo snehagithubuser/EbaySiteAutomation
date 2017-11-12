@@ -16,7 +16,7 @@ public class ProdSelection {
 		this.driver=driver;
 	}
 
-	public void RandomClickPrd()
+	public void randomClickPrd()
 	{
 		driver.findElement(ProductSel).click();
 	}

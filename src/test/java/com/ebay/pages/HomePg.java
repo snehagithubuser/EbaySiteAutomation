@@ -22,7 +22,7 @@ WebDriver driver;
 		this.driver=driver;
 	}
 	
-	public void EnterProductName(String PRD) 
+	public void enterProductName(String PRD) 
 	{
 		
 		driver.findElement(inputtab).sendKeys(PRD);

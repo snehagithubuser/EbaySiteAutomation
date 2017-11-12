@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 
 public class Utility {
 	
-	public static void captureScreenshot(WebDriver driver,String screenshotName)
+	public static void captureScreenshot(WebDriver driver,String screenshotName)throws Exception
 	{
 
 	 try{
